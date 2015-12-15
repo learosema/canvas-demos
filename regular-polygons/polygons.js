@@ -1,4 +1,6 @@
+// move all math properties to global namespace
 Object.getOwnPropertyNames(Math).map(function(p){window[p]=Math[p]})
+
 w=a.width=innerWidth
 h=a.height=innerHeight
 b=document.body
@@ -28,6 +30,7 @@ function poly(n,r,p,Φ,v,ω,_){
 			for(i=n,a=2*PI/n,V=[];i--;)V.push([cos(i*a)*r,sin(i*a)*r,0].rot(Φ).add(p))
 		}
 	}
+	return _
 }
 ~function L(t){
 	
