@@ -1,4 +1,4 @@
-// move all math properties to global namespace
+// move all Math.* to global namespace - © by @thebabydino, thank you :)
 Object.getOwnPropertyNames(Math).map(function(p){window[p]=Math[p]})
 
 w=a.width=innerWidth
@@ -7,7 +7,7 @@ B=document.body
 c=a.getContext("2d")
 P=[]
 
-// mini vector math lib ;)
+// add some vector math helpers to Array prototype:
 →=Array.prototype
 →.add=function(a,b,c){for(b=this,c=b.length;c--;)b[c]+=a[c];return b}
 →.mul=function(a,b,c){for(b=this,c=b.length;c--;)b[c]*=a;return b}
