@@ -1,0 +1,23 @@
+with(Math)π=PI,S=sin
+w=a.width=innerWidth
+h=a.height=innerHeight
+b=document.body
+c=a.getContext("2d")
+c.fillStyle="rgba(0,0,0,.1)"
+~function L(t){
+	t/=1e3
+	c.fillRect(0,0,w,h)
+	c.save()
+	c.translate(w/2,h/2)
+	c.rotate(t)
+	l=(w/4+(S(t/4)*w/4))|0
+	c.beginPath()
+	c.moveTo(l/2,l/2)
+	for(i=90;i--;)
+		c.lineTo(l/2+(S(t+i)*l/2)|0,l/2+(S(t-i)*l/2)|0),
+		c.rotate(π/4)
+	c.strokeStyle="hsl("+(((t*2e2)%360)|0)+",100%,75%)"
+	c.stroke()
+	c.restore()
+	requestAnimationFrame(L)
+}(0)
