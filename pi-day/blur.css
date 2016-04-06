@@ -1,0 +1,6 @@
+body {
+-webkit-filter: blur(15px) contrast(5);
+	-moz-filter: blur(15px) contrast(5);
+	-ms-filter: blur(15px) contrast(5);
+	filter: blur(15px) contrast(5);	
+}
