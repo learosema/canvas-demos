@@ -1,7 +1,8 @@
 with(Math)R=random,Q=sqrt,S=sin,C=cos,A=abs,P=pow
 with(b.style)margin=0,overflow="hidden",backgroundColor='#000'
-W=a.width=256
-H=a.height=256
+W=a.width=innerWidth/4
+H=a.height=innerHeight/4
+ff=255
 // Generate textures
 i1=new ImageData(256,256)
 i2=new ImageData(256,256)
@@ -11,41 +12,54 @@ for(Y=256;Y--;)
 		y=Y-128
 		offs=(Y<<10)+(X<<2)
 		v1=(Q(x*x+y*y)|0)
-		v2=(127+(S(.03*(A(x)+A(y)))+ S(.03*(x*x+y*y))+S(.003*(P(A(x),1.5)+P(A(y),1.5)))*255/3))|0
-		i1.data[offs]  =((Q(x*x+y*y)|0)&31)*8
-		i1.data[offs+1]=((Q(x*x+y*y)|0)&63)*4
-		i1.data[offs+2]=((Q(x*x+y*y)|0)&15)*16
-		i1.data[offs+3]=255
-		
-		i2.data[offs]  = v2
-		i2.data[offs+1]  = v2%64
-		i2.data[offs+2]  =  v2
-		i2.data[offs+3]  = 255
+		v2=(127+(S(.03*(A(x)+A(y)))+S(.03*(x*x+y*y))+S(.003*(P(A(x),1.5)+P(A(y),1.5)))*ff/3))|0
+		i1.data[offs  ]=(v1&31)*8
+		i1.data[offs+1]=(v1&63)*4
+		i1.data[offs+2]=(v1&15)*16
+		i1.data[offs+3]=ff
+		i2.data[offs  ]=v2
+		i2.data[offs+1]=v2%64
+		i2.data[offs+2]=v2
+		i2.data[offs+3]=ff
 	}
-
+// uncomment the throw Errors here to see the textures :)
 c.putImageData(i1,0,0)
-t1=a.toDataURL()
+// throw Error("Stop! I'd like to see texture 1 :)")
 c.putImageData(i2,0,0)
+// throw Error("Stop! I'd like to see texture 2 :)")
 
-xφ1=xφ2=xφ3=xφ4=yφ1=yφ2=yφ3=yφ4=0
-xω1=.0291,xω2=.0115,xω3=.0464,xω4=.0337
-yω1=.0064,xω2=.0045,yω3=.0403,yω4=.0422
+xx=[0,0,0,0]
+yy=[0,0,0,0]
+xφ=[0,0,0,0]
+yφ=[0,0,0,0]
+xω=[.0291,.0115,.0464,.0337]
+yω=[.0064,.0045,.0403,.0422]
 
-I=new ImageData(256,256)
+I=new ImageData(W,H)
+
+
+
+function Px(x,y,xx,yy,t,i){
+	o0=(y*W+x)*4
+	I.data[i0+3]=ff
+	for(i=3;i--;)I.data[o0+i]=t&ff
+	for(i=4;i--;)
+		o1=((xx[i]+x)&ff)+(4*((yy[i]+y)&ff)),
+		I.data[o0  ]+=i1.data[o1  ],
+		I.data[o0+1]+=i1.data[o1+1],
+		I.data[o0+2]+=i1.data[o1+2]
+}
+
 
 ~function L(t){
-	x1=(cos(xφ1)+1)*128
-	x2=(cos(xφ2)+1)*128
-	x3=(cos(xφ3)+1)*128
-	x4=(cos(xφ4)+1)*128
-	y1=(cos(yφ1)+1)*128
-	y2=(cos(yφ2)+1)*128
-	y3=(cos(yφ3)+1)*128
-	y4=(cos(yφ4)+1)*128
-
+	t/=1e3
+	for(i=4;i--;)
+		xx[i]=(C(xφ[i])+1)*128,
+		yy[i]=(C(xφ[i])+1)*128,
+		xφ[i]+=xω[i],yφ[i]+=yω[i]
 	for(y=H;y--;)
 		for(x=W;x--;)
-
+			Px(x,y,xx,yy,t|0)
 /*
            for y := 0 to maxy - 1 do
             for x := 0 to maxx - 1 do
@@ -57,14 +71,7 @@ I=new ImageData(256,256)
  
  
  */
-	xφ1+=xω1
-	xφ2+=xω2
-	xφ3+=xω3
-	xφ4+=xω4
-	yφ1+=yω1
-	yφ2+=yω2
-	yφ3+=yω3
-	yφ4+=yω4
+	c.putImageData(I,0,0)
 	requestAnimationFrame(L)
 }(0)
 
