@@ -40,6 +40,7 @@ I=new ImageData(W,H)
 
 
 function Px(x,y,xx,yy,t,i){
+	//test
 	o0=(y*W+x)*4
 	I.data[i0+3]=ff
 	for(i=3;i--;)I.data[o0+i]=t&ff
