@@ -42,7 +42,7 @@ I=new ImageData(W,H)
 
 function loc(x,y) {return (y*256+x)*4}
 ~function L(t){
-	t/=1e3
+	t/=10
 	for(i=4;i--;)
 		xx[i]=(C(xφ[i])+1)*128,
 		yy[i]=(C(xφ[i])+1)*128,
@@ -53,7 +53,7 @@ function loc(x,y) {return (y*256+x)*4}
 			o=[]
 			for(i=4;i--;)o[i]=loc(((xx[i]|0)+x)&ff,((yy[i]|0)+y)&ff)
 			I.data[dest  ]=(i1.data[o[0]  ]+i1.data[o[1]  ]+i2.data[o[2]  ]+i2.data[o[3]  ]+t)&ff
-			I.data[dest+1]=(i1.data[o[0]+1]+i1.data[o[1]+1]+i2.data[o[2]+1]+i2.data[o[3]+1]+t)&ff
+			I.data[dest+1]=(i1.data[o[0]+1]+i1.data[o[1]+1]+i2.data[o[2]+1]+i2.data[o[3]+1])&ff
 			I.data[dest+2]=(i1.data[o[0]+2]+i1.data[o[1]+2]+i2.data[o[2]+2]+i2.data[o[3]+2]+t)&ff
 			I.data[dest+3]=ff
 		}
