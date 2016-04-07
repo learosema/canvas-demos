@@ -9,7 +9,8 @@
 	<script>
 	d=document
 	b=d.body
-	c=a.getContext("2d")
+	c=a.getContext("2d",{ antialias: true,
+                   depth: false })
 	// gl=a.getContext("webgl")
 	</script>
 	<script src="interference.js"></script>
