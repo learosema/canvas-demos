@@ -1,8 +1,9 @@
 with(Math)R=random,Q=sqrt,S=sin,C=cos,A=abs,P=pow
 with(b.style)margin=0,overflow="hidden",backgroundColor='#000'
 with(a.style)width="100vw",height="100vh"
-W=a.width=(innerWidth/2)|0
-H=a.height=(innerHeight/2)|0
+
+W=a.width=(innerWidth/(innerWidth<800?1:2))|0
+H=a.height=(innerHeight/(innerWidth<800?1:2))|0
 
 ff=255
 // Generate textures
