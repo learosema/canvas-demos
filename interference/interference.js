@@ -1,11 +1,14 @@
-with(Math)R=random,Q=sqrt,S=sin,C=cos,A=abs,P=pow
+with(Math)R=random,Q=sqrt,S=sin,C=cos,A=abs,P=pow,M=max
 with(b.style)margin=0,overflow="hidden",backgroundColor='#000'
 with(a.style)width="100vw",height="100vh"
-
-W=a.width=(innerWidth/(innerWidth<800?1:2))|0
-H=a.height=(innerHeight/(innerWidth<800?1:2))|0
-
-ff=255
+ff=255,mb=M(innerWidth,innerHeight)<800
+function SZ(){
+	if(mb&&W==innerWidth)return
+	W=a.width=(innerWidth/(mb?2:3))|0
+	H=a.height=(innerHeight/(mb?2:3))|0
+}
+SZ()
+this.onresize=SZ
 // Generate textures
 i1=new ImageData(256,256)
 i2=new ImageData(256,256)
@@ -25,10 +28,10 @@ for(Y=256;Y--;)
 		i2.data[offs+2]=v2
 		i2.data[offs+3]=ff
 	}
-// uncomment the throw Errors here to see the textures :)
-c.putImageData(i1,0,0)
+// uncomment to see the textures :)
+// c.putImageData(i1,0,0)
 // throw Error("Stop! I'd like to see texture 1 :)")
-c.putImageData(i2,0,0)
+// c.putImageData(i2,0,0)
 // throw Error("Stop! I'd like to see texture 2 :)")
 
 xx=[0,0,0,0]
