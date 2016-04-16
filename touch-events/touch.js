@@ -74,7 +74,9 @@ g.ontouchcancel=function(e,t,i,j){
 	}
 }*/
 ~function L(t) {
+	c.fillStyle="rgba(0,0,0,.1)"
+	c.fillRect(0,0,W,H)
 	t/=1e3
 	requestAnimationFrame(L)
-}//(0)
+}(0)
 
