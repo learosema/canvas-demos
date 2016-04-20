@@ -53,6 +53,7 @@ ontouchstart=function(e,t,o){
 }
 
 ontouchmove=function(e,t,i,j,o){
+	e.preventDefault()
 	for(t=e.changedTouches,i=t.length;i--;){
 		j=getTouch(t[i].identifier)
 		if(j>-1){
