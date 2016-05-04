@@ -7,8 +7,8 @@
 // (6) if a wolf has a shepherd adjacent to it, it will be replaced by a blank cell
 // (7) In else cases, no replacement takes place.
 R=Math.random
-w=a.width=3*1280
-h=a.height=3*768
+w=a.width=1280*2
+h=a.height=768*2
 W=w/64|0
 H=h/64|0
 for(M=[],m=W*H;m--;)M[m]=R()*4|0
@@ -19,7 +19,7 @@ N=function(x,y,z){
 		   (m((x-1),  y  )===z?1:0)                            + (m((x+1),  y  )===z?1:0) +
 		   (m((x-1),(y+1))===z?1:0) + (m(  x  ,(y+1))===z?1:0) + (m((x+1),(y+1))===z?1:0)
 }
-O=1 // ops per frame
+O=50 // ops per frame
 P=function(x,y){
 	if(m(x,y)==0&&N(x,y,1)>0)return 1 // (1)
 	if(m(x,y)==1&&N(x,y,2)>0)return 2 // (2)
@@ -33,20 +33,21 @@ P=function(x,y){
 E=function(u,f,i,j,k){
 	for(k=j=u.length;j--;)
 		i=new Image(),
-		i.src='https://assets-cdn.github.com/images/icons/emoji/unicode/1f4'+u[j]+'.png',
 		i.onload=function(){if(!--k)f(u)},
+		i.src='https://assets-cdn.github.com/images/icons/emoji/unicode/1f4'+u[j]+'.png',
 		u[j]=i
 }
-E([11,'3a',68],function(I,i,x,y){
+E([11,'3a',68],function(I,i,k,x,y){
 	G=document.createElement('canvas')
 	G.width=G.height=64
 	g=G.getContext('2d')
 	g.fillStyle='rgba(0,255,0,0.02)'
-	for(i=5e3;i--;)g.fillRect(R()*64,R()*64,4,4)
 	I.splice(0,0,new Image(64,64))
 	I[0].src=G.toDataURL()
-	I.splice(0,0,new Image(64,64))
-	~function L(x,y,i){
+	for(i=5e3;i--;)g.fillRect(R()*64,R()*64,4,4)
+	I.splice(1,0,new Image(64,64))
+	I[1].src=G.toDataURL()
+	function L(x,y,i){
 		c.fillStyle='rgba(51,51,51,0.9)'//d.body.style.backgroundColor
 		c.fillRect(0,0,w,h)
 		for(y=H;y--;)
@@ -57,7 +58,8 @@ E([11,'3a',68],function(I,i,x,y){
 			y=R()*H|0,
 			M[y*W+x]=P(x,y)
 		requestAnimationFrame(L)	
-	}()
+	}
+	k=2,I[0].onload=I[1].onload=function(){if(!--k)L()}
 	window.onkeydown=function(e) {
 		if (e.keyCode==38)O=Math.min(O+10,1001)
 		if (e.keyCode==40)O=Math.max(O-10,1)
