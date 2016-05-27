@@ -22,7 +22,7 @@ const H = C.height = innerHeight
 const sound = new AudioContext()
 const source = sound.createMediaElementSource(A)
 const spectrum = sound.createAnalyser()
-spectrum.fftSize = 512
+spectrum.fftSize = 1024
 const buffer = new Uint8Array(spectrum.frequencyBinCount)
 source.connect(sound.destination)
 source.connect(spectrum)
