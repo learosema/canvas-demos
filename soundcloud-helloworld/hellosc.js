@@ -8,7 +8,7 @@ const urlEnc = (params) =>
 
 const http = (url, params) => {
 	const xhr = new XmlHttpRequest()
-	with (xhr), open("GET", url + "?" + urlEnc(params), true), send()
+	with (xhr) open("GET", url + "?" + urlEnc(params), true), send()
 	return new Promise((yep, nope) => {
 		xhr.onreadystatechange = () => {
 			if (xhr.readyState != 4) return
