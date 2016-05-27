@@ -19,6 +19,6 @@ const http = (url, params) => {
 }
 
 http("http://api.soundcloud.com/resolve", {url: trackUrl, client_id: clientId})
-	.then((response) => console.log(JSON.parse(response))
+	.then((response) => console.log(JSON.parse(response)))
 
 
