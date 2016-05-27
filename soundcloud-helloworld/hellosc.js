@@ -29,17 +29,20 @@ source.connect(spectrum)
 const c = C.getContext("2d")
 
 const loop = (t) => {
-	c.fillStyle = "rgba(0,0,0,.1)"
+	c.fillStyle = "rgba(0,0,0,.2)"
 	c.fillRect(0, 0, W, H)
 	spectrum.getByteTimeDomainData(buffer)
 	const dx = W / buffer.length
 	c.beginPath()
-	c.strokeStyle = "#fff"
+	c.lineWidth = 8
+	c.globalCompositeOperation = "lighter"
+	c.strokeStyle = `hsl(${((t/1e2)|0)%360},100%,50%)`
 	c.moveTo(0, buffer[0]/128.0*H/2)
 	for (let i = 1; i < buffer.length; i++) {
 		c.lineTo(i*dx, buffer[i]/128.0*H/2)
 	}	
 	c.stroke()
+	c.globalCompositeOperation = "source-over"
 	requestAnimationFrame(loop)
 }
 
