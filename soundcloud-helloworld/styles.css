@@ -9,3 +9,8 @@ canvas {
 	height: 100vh;
 
 }
+
+audio {
+	position: absolute;
+	z-index: 1;
+}
