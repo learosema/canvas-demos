@@ -52,7 +52,11 @@ const load = (url) => http("http://api.soundcloud.com/resolve", {url: url, clien
 		if (data.stream_url) {
 			A.crossOrigin = "anonymous"
 			A.src = data.stream_url + "?" + urlEnc({client_id: clientId})
-			A.play()
+			try {
+				A.play()
+			} catch(e) {
+				// Chrome on Android does not allow autoplay.
+			}
 		}
 	})
 
