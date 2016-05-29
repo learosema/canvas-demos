@@ -72,6 +72,14 @@ addEventListener('keydown', (e) => {
 	}
 })
 
+addEventListener('click', (e) => {
+		if (A.paused) {
+			A.play()
+		} else {
+			A.pause()
+		}
+})
+
 addEventListener('resize', () => {
 	W = C.width = innerWidth
 	H = C.height = innerHeight
