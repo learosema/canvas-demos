@@ -18,6 +18,8 @@ const http = (url, params) => {
 
 let W = C.width = innerWidth
 let H = C.height = innerHeight
+
+const A = new Audio()
 const sound = new AudioContext()
 const source = sound.createMediaElementSource(A)
 const spectrum = sound.createAnalyser()
