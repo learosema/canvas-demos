@@ -1,76 +1,72 @@
-deg = Math.PI / 180, sin = Math.sin, cos=Math.cos
+walls = []
+deg = Math.PI/180, sin = Math.sin, cos=Math.cos
 c = a.getContext("2d")
-w = a.width  = innerWidth / 2
-h = a.height = innerHeight / 2
+w = a.width  = innerWidth
+h = a.height = innerHeight
 
-nX = 8
-nY = 6
-tW = (w / nX)|0
-tH = (h / nY)|0
-tWh = (tW / 2)
-tHh = (tH / 2)
-wW = tW / 8
+nX = 16
+nY = 12
+tW = (w/nX)|0
+tH = (h/nY)|0
+tWh = (tW/2)|0
+tHh = (tH/2)|0
+wW = tW/8
 
 // random int between
 R = (min, max) => (min + Math.random()*(max - min + 1))|0 
 
-// factory function for \/| ... a backSlashPipe :)
-backSlashPipe = (x, y, a) => ({ 
-	x: x, 
-	y: y, 
+W = (x, y, v) => {
+	if(x<0) x+= nX + nX*((x/-nX)|0)
+	if(y<0) y+= nY + nY*((y/-nY)|0)
+	if(v) walls[((y%nY)*nX + (x%nX))] = v
+	return walls[((y%nY)*nX + (x%nX))]
+}
+
+// factory for a backSlashPipe \|/ :)
+// param a: angle between -45° and 45°
+//          -45=\, 0=|, 45=/
+backSlashPipe = (a) => ({ 
 	a: a||(R(0,1)*90 - 45), 
-	a2: (R(0,1)*90 - 45) 
+	b: (R(0,1)*90 - 45) 
 })
 
+for(j = nY; j--;)
+	for(i = nX; i--;) 
+		W(i, j, backSlashPipe())
 
-walls = []
-for(j=nY; j--;)
-	for(i=nX; i--;) 
-		walls[j*nX + i] = backSlashPipe(i*tW, j*tH)
+ 
+
 
 xR = -1
 yR = 0
 step = 0
 
+
 ~function renderLoop(t) {
-	c.fillStyle="#000"
+	c.fillStyle = "#000"
 	c.fillRect(0,0, w, h)
-	for(i = walls.length; i--; ) {
-		c.fillStyle = "#fff"
-		x1 = walls[i].x + tWh + walls[i].a/45*(tWh) 
-		y1 = walls[i].y
-		x2 = walls[i].x + tWh - walls[i].a/45*(tWh)
-		y2 = walls[i].y + tH
-		
-		c.beginPath()
-		c.moveTo(x1 - wW, y1)
-		c.lineTo(x1 + wW, y1)
-		c.lineTo(x2 + wW, y2)
-		c.lineTo(x2 - wW, y2)
-		c.closePath()
-		c.fill()
-		if(walls[i].a < walls[i].a2)walls[i].a++
-		if(walls[i].a > walls[i].a2)walls[i].a--
-		
-
-
-	}
-
-
-
-
+	for(j = nY; j--;)
+		for(i = nX; i--;) {
+			c.fillStyle = "#fff"
+			x1 = i*tW + tWh + tWh*W(i, j).a/45
+			y1 = j*tH
+			x2 = i*tW + tWh - tWh*W(i, j).a/45
+			y2 = y1 + tH
+			
+			c.beginPath()
+			c.moveTo(x1 - wW, y1)
+			c.lineTo(x1 + wW, y1)
+			c.lineTo(x2 + wW, y2)
+			c.lineTo(x2 - wW, y2)
+			c.closePath()
+			c.fill()
+			if(W(i, j).a < W(i, j).b) W(i, j).a++
+			if(W(i, j).a > W(i, j).b) W(i, j).a--
+		}
 	requestAnimationFrame(renderLoop)
 }(0)
 
-moveRight = () => {
-	xR = -1
-	yR = 0
-	step = 0
-	for (i=nY; i--;)
-		world.push(backSlashPipe(nX*tW + tW, nY*tH + i * tH))
-}
-
 setInterval(() => { 
 	for(i=walls.length;i--;) 
-		walls[i].a2 = R(0,1)*90 - 45
+		walls[i].b = R(0,1)*90 - 45
 }, 3300)
