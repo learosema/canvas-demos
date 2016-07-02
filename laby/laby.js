@@ -12,9 +12,16 @@ tWh = (tW/2)|0
 tHh = (tH/2)|0
 wW = tW/8
 
+xR = -1
+yR = 0
+xOffs = 0
+yOffs = 0
+speed = 4
+
 // random int between
 R = (min, max) => (min + Math.random()*(max - min + 1))|0 
 
+// get/set wall at position x,y
 W = (x, y, v) => {
 	if(x<0) x+= nX + nX*((x/-nX)|0)
 	if(y<0) y+= nY + nY*((y/-nY)|0)
@@ -30,22 +37,14 @@ backSlashPipe = (a) => ({
 	b: (R(0,1)*90 - 45) 
 })
 
-for(j = nY; j--;)
-	for(i = nX; i--;) 
+// init world
+for(let j = nY; j--;)
+	for(let i = nX; i--;) 
 		W(i, j, backSlashPipe())
 
- 
-
-
-xR = -1
-yR = 0
-xOffs = 0
-yOffs = 0
-speed = 4
-
-
-
+// animation loop
 ~function anim(t) {
+	let i,j,a,x1,y1,x2,y2,tmp;
 	c.fillStyle = "#000"
 	c.fillRect(0,0, w, h)
 	if(xOffs%tW == 0)console.log(-((xOffs/tW)|0))
@@ -77,10 +76,10 @@ speed = 4
 		    (xR < 0 && -xOffs%tW == 0 && ((-xOffs/tW)|0)%2 == 0))
 			tmp = xR, xR = yR, yR = tmp
 	}
-		
 	requestAnimationFrame(anim)
 }(0)
 
+// change the walls every 2.3s
 setInterval(() => { 
 	for(i=walls.length;i--;) 
 		walls[i].b = R(0,1)*90 - 45
