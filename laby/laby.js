@@ -39,18 +39,23 @@ for(j = nY; j--;)
 
 xR = -1
 yR = 0
-step = 0
+xOffs = 0
+yOffs = 0
+speed = 4
 
 
-~function renderLoop(t) {
+
+~function anim(t) {
 	c.fillStyle = "#000"
 	c.fillRect(0,0, w, h)
-	for(j = nY; j--;)
-		for(i = nX; i--;) {
+	if(xOffs%tW == 0)console.log(-((xOffs/tW)|0))
+	for(j = -1; j<= nY + 1; j++)
+		for(i = -1; i <= nX + 1; i++) {
 			c.fillStyle = "#fff"
-			x1 = i*tW + tWh + tWh*W(i, j).a/45
-			y1 = j*tH
-			x2 = i*tW + tWh - tWh*W(i, j).a/45
+			a = W(i - ((xOffs/tW)|0), j - ((yOffs/tH)|0)).a
+			x1 = (xOffs%tW) + i*tW + tWh + tWh*a/45
+			y1 = (yOffs%tH) + j*tH
+			x2 = (xOffs%tW) + i*tW + tWh - tWh*a/45
 			y2 = y1 + tH
 			
 			c.beginPath()
@@ -60,13 +65,23 @@ step = 0
 			c.lineTo(x2 - wW, y2)
 			c.closePath()
 			c.fill()
-			if(W(i, j).a < W(i, j).b) W(i, j).a++
-			if(W(i, j).a > W(i, j).b) W(i, j).a--
 		}
-	requestAnimationFrame(renderLoop)
+	for(i = walls.length; i--;) {
+		if(walls[i].a < walls[i].b) walls[i].a++
+		if(walls[i].a > walls[i].b) walls[i].a--
+	}
+	for (i = speed; i--;) {
+		xOffs += xR
+		yOffs += yR
+		if ((yR < 0 && -yOffs%tH == 0 && ((-yOffs/tH)|0)%2 == 0) ||
+		    (xR < 0 && -xOffs%tW == 0 && ((-xOffs/tW)|0)%2 == 0))
+			tmp = xR, xR = yR, yR = tmp
+	}
+		
+	requestAnimationFrame(anim)
 }(0)
 
 setInterval(() => { 
 	for(i=walls.length;i--;) 
 		walls[i].b = R(0,1)*90 - 45
-}, 3300)
+}, 2300)
