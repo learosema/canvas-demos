@@ -1,0 +1,6 @@
+const {sin,cos,random}=Math
+
+const AlarmoBot = (carFreq, modFreq) => {
+
+
+}
