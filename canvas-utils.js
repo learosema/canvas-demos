@@ -11,8 +11,8 @@ Object.getOwnPropertyNames(Math).map(function(p) {
 function _rot(vertex, i, j, d) {
   var x = vertex[i]
   var y = vertex[j]
-  vertex[i] =  x * C(d) + y * S(d)
-  vertex[j] = -x * S(d) + y * C(d)
+  vertex[i] =  x * cos(d) + y * sin(d)
+  vertex[j] = -x * sin(d) + y * cos(d)
   return vertex
 }
 
