@@ -58,7 +58,10 @@ def(V.prototype, "z", {
 
 // project to 2d coordinates, 
 // vanishing point at the center
-V.prototype.to2D = function () {
-    var k = .5 + this.z / 2000
+V.prototype.to2D = function (w, h, d) {
+    w = w || innerWidth
+    h = h || innerHeight
+    d = d || 2000
+    var k = .5 + this.z / d
     return [w/2 + this.x*k, h/2 + this.y*k]
 }
